@@ -15,6 +15,28 @@
   display: inline-block;
 }
 
+.nav-item {
+  color: azure;
+  font-size: 18px;
+  padding: 8px 16px;
+  margin: 0 8px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: hsla(0, 8%, 80%, 0.822);
+  cursor: pointer;
+}
+
+.nav-item:focus {
+  color: #e50914;
+  cursor: pointer;
+}
+
 .menu-icon {
   font-size: 1.5rem;
   color: #fff;
