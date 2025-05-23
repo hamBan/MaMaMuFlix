@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Hero.css';
 
 function Hero() {
@@ -7,7 +8,7 @@ function Hero() {
       <div className="container">
         <h1>আমাদের সিনেমার ঠেক</h1>
         <p>একবার দেখো, বারবার দেখো</p>
-        <a href="#" className="btn">Start Watching</a>
+        <Link to="/movies" className="btn">Start Watching</Link>
       </div>
     </section>
   );

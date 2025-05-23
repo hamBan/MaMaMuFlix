@@ -5,7 +5,7 @@ function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="container">
-        <p>&copy; 2025 Soham Banerjee. All rights reserved.</p>
+        <p>&copy; সোহম বন্দ্যোপাধ্যায় || সর্বস্বত্ব সংরক্ষিত || 2025 </p>
       </div>
     </footer>
   );

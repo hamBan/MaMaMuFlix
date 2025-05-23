@@ -1,25 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './SiteHeader.css';
 
 function SiteHeader() {
-  const handleLogoClick = (event) => {
-    event.preventDefault();
-    console.log("Logo clicked!");
-  };
   return (
     <header className="site-header">
       <div className="container">
-        <a href="#" className="logo" onClick={handleLogoClick}>মামামুFLIX</a>
-        <a className="nav-item" aria-current="page" href="#">Home</a>
-        <a className="nav-item" href="#">Movies</a>
-        <a className="nav-item" href="#">Shows</a>
+        <Link to="/" className="logo">মামামুFLIX</Link>
+        <Link to="/home" className="nav-item" aria-current="page">Home</Link>
+        <Link to="/movies" className="nav-item">Movies</Link>
+        <Link to="/series" className="nav-item">Series</Link>
 
         <input type="checkbox" id="menu-toggle" />
         <label htmlFor="menu-toggle" className="menu-icon">&#9776;</label>
         <nav className="navbar">
           <ul className="nav-links">
-            <li><a href="#" onClick={handleLogoClick}>My List</a></li>
-            <li><a href="#" onClick={handleLogoClick}>Contact</a></li>
+            <li><Link to="/">My List</Link></li>
+            <li><Link to="/">Contact</Link></li>
           </ul>
         </nav>
       </div>

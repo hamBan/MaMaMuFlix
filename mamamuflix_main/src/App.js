@@ -1,18 +1,26 @@
 import React from 'react';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
-import Hero from './components/Hero/Hero';
-import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
+import Landing from './components/Landing/Landing';
+import Home from './components/Home/Home';
+import Movies from './components/Movies/Movies';
+import Series from './components/Series/Series';
+
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Hero />
-      <Content />
-      <Footer />
-    </div>
+      <div>
+        <Header />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/movies" element={<Movies />} />
+            <Route path="/series" element={<Series />} />
+          </Routes>
+        <Footer />
+      </div>
   );
 }
 
