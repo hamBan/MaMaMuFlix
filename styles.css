@@ -1,0 +1,158 @@
+/* General */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #fff;
+  background-color: #000;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.site-header {
+  background-color: #111;
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.logo {
+  color: #e50914;
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.menu-icon {
+  font-size: 1.5rem;
+  color: #fff;
+  display: inline-block;
+  cursor: pointer;
+  float: right;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.navbar {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: #111;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 0;
+}
+
+#menu-toggle:checked ~ .navbar {
+  display: flex;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #e50914;
+}
+
+/* Hero Section */
+.hero {
+  background: url('https://via.placeholder.com/1920x600') no-repeat center center/cover;
+  text-align: center;
+  padding: 10rem 1rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  background-color: #e50914;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #b20710;
+}
+
+/* Content Section */
+.featured {
+  padding: 2rem 0;
+}
+
+.featured h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.card {
+  background-color: #222;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+  display: block;
+}
+
+.card h3 {
+  margin: 1rem 0;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #111;
+  text-align: center;
+  padding: 1rem 0;
+}
