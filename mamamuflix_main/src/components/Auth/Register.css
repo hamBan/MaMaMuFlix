@@ -1,0 +1,78 @@
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers horizontally */
+  justify-content: center; /* Centers vertically */
+  min-height: calc(100vh - /* Height of your header + footer */ 100px); /* Ensure at least full viewport height */
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+  max-width: 400px; /* Adjust as needed */
+  padding: 50px;
+  border: 1px solid #e50914;
+  border-radius: 5px;
+  background-color: rgb(17, 17, 17);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+button[type='submit'] {
+  width: 100%;
+  padding: 10px;
+  background-color: #e50914; /* Example button color */
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button[type='submit']:hover {
+  background-color: #b20710;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px; /* Adjust the gap as needed */
+  margin-top: 15px; /* Add some space above the buttons */
+}
+
+.butn {
+    width: 100%; /* If you want it to take full width */
+    padding: 10px;
+    background-color: #022; /* Netflix red */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none; /* To remove default link underline */
+    display: inline-block; /* Or block, depending on context */
+    text-align: center; /* To center the text inside */
+}

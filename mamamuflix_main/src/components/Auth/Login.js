@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Login.css';
 
 function Login() {
   const [identifier, setIdentifier] = useState(''); // Can be username or email
@@ -19,31 +21,34 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="identifier">Username or Email:</label>
           <input
             type="text"
             id="identifier"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
+            placeholder="Username/Email"
             required
           />
         </div>
         <div>
-          <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <div className="button-container">
+          <Link to='/register' className="butn">Register</Link>
+          <button type="submit">Login</button>
+        </div>
       </form>
     </div>
   );
