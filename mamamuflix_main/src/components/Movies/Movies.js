@@ -5,7 +5,7 @@ import Grid from '../Grid/Grid';
 function Movies() {
   return (
     <div>
-      <Grid />
+      <Grid tag={"movie"}/>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import Grid from '../Grid/Grid';
 function Series() {
   return (
     <div>
-      <Grid />
+      <Grid tag={"series"}/>
     </div>
   );
 }

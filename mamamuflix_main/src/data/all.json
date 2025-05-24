@@ -11,5 +11,20 @@
   { "imageUrl": "/assets/the_shawshank_redemption.png", "altText": "Shawshank 4", "title": "Shawshank 4", "tag": "movie" },
   { "imageUrl": "/assets/pather_panchali.jpg", "altText": "Panchali 4", "title": "Panchali 4", "tag": "series" },
   { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 4", "title": "Parasite 4", "tag": "movie" },
+  { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 5", "title": "Parasite 5", "tag": "series" },
+  { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 3", "title": "Parasite 3", "tag": "series" },
+  { "imageUrl": "/assets/pather_panchali.jpg", "altText": "Panchali 3", "title": "Panchali 3", "tag": "movie" },
+  { "imageUrl": "/assets/the_shawshank_redemption.png", "altText": "Shawshank 3", "title": "Shawshank 3", "tag": "series" },
+  { "imageUrl": "/assets/the_shawshank_redemption.png", "altText": "Shawshank 4", "title": "Shawshank 4", "tag": "movie" },
+  { "imageUrl": "/assets/pather_panchali.jpg", "altText": "Panchali 4", "title": "Panchali 4", "tag": "series" },
+  { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 4", "title": "Parasite 4", "tag": "movie" },
+  { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 5", "title": "Parasite 5", "tag": "series" },
+  { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 3", "title": "Parasite 3", "tag": "series" },
+  { "imageUrl": "/assets/pather_panchali.jpg", "altText": "Panchali 3", "title": "Panchali 3", "tag": "movie" },
+  { "imageUrl": "/assets/the_shawshank_redemption.png", "altText": "Shawshank 3", "title": "Shawshank 3", "tag": "series" },
+  { "imageUrl": "/assets/the_shawshank_redemption.png", "altText": "Shawshank 4", "title": "Shawshank 4", "tag": "movie" },
+  { "imageUrl": "/assets/pather_panchali.jpg", "altText": "Panchali 4", "title": "Panchali 4", "tag": "series" },
+  { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 4", "title": "Parasite 4", "tag": "movie" },
   { "imageUrl": "/assets/parasite.jpg", "altText": "Parasite 5", "title": "Parasite 5", "tag": "series" }
+
 ]

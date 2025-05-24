@@ -3,17 +3,25 @@ import './Grid.css';
 import GridBox from './GridBox/GridBox';
 import allItems from '../../data/all.json'; // API endpoint needed
 
-const itemsPerPage = 12
+const itemsPerPage = 12;
+var filteredItems;
 
-function Grid() {
+function Grid({ tag }) {
+  if(tag === "all"){
+    filteredItems = allItems;
+  }
+  else{
+    filteredItems = allItems.filter(item => item.tag === tag);
+  }
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = allItems.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(allItems.length / itemsPerPage);
+  const currentItems = filteredItems.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+    window.scrollTo({top: 0,behavior: 'smooth'});
   };
 
   return (
