@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController //tells Spring this class handles web requests
 @RequestMapping("/api") // Base path for all endpoints
 public class UserController {
@@ -114,23 +115,44 @@ public class UserController {
         }
     }
 
-    @GetMapping("/checkUser")
-    public ResponseEntity<String> checkUser(@RequestBody UserPasswordDTO userPasswordDTO)
-    {
+    @PostMapping("/checkUser")
+    public ResponseEntity<String> checkUser(@RequestBody UserPasswordDTO userPasswordDTO) {
         try {
             Optional<User> userOpt = userRepository.findById(userPasswordDTO.getUsername());
-            if(userOpt.isEmpty())
+
+            if (userOpt.isEmpty()) {
                 return ResponseEntity.status(400).body("User does not exist");
+            }
 
             User user = userOpt.get();
-            if(user.getUsername().equals(userPasswordDTO.getUsername()) && user.getPasskeys().equals(userPasswordDTO.getPassword()))
+            if (user.getUsername().equals(userPasswordDTO.getUsername()) && user.getPasskeys().equals(userPasswordDTO.getPassword())) {
                 return ResponseEntity.ok("Success");
-
-            else
+            } else {
                 return ResponseEntity.status(403).body("Failure");
-        }
-        catch (Exception e) {
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+
+
+//    @GetMapping("/checkUser")
+//    public ResponseEntity<String> checkUser(@RequestBody UserPasswordDTO userPasswordDTO)
+//    {
+//        try {
+//            Optional<User> userOpt = userRepository.findById(userPasswordDTO.getUsername());
+//            if(userOpt.isEmpty())
+//                return ResponseEntity.status(400).body("User does not exist");
+//
+//            User user = userOpt.get();
+//            if(user.getUsername().equals(userPasswordDTO.getUsername()) && user.getPasskeys().equals(userPasswordDTO.getPassword()))
+//                return ResponseEntity.ok("Success");
+//
+//            else
+//                return ResponseEntity.status(403).body("Failure");
+//        }
+//        catch (Exception e) {
+//            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+//        }
+//    }
 }
