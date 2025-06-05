@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Register.css';
 
 function Register() {
   const [username, setUsername] = useState('');
+  const [fullname, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,16 +20,46 @@ function Register() {
       return;
     }
 
-    // In a real app, you would send this data to your backend API
-    console.log('Registration Data:', { username, email, password });
-    alert('Registration attempted (check console)');
+    try {
+      const response = await axios.put('http://localhost:8080/api/addUser', {
+        username: username,
+        fullname: fullname,
+        emailid: email,
+        passkeys: password
+      });
 
-    // Reset form
-    setUsername('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setError('');
+      alert(response.data);
+      setError('');
+
+      // Optionally redirect to login page after success
+      navigate('/login');
+      // // Reset form
+      // setUsername('');
+      // setEmail('');
+      // setPassword('');
+      // setConfirmPassword('');
+    }
+
+    catch(error) {
+      if(error.response && error.response.data) {
+        setError(error.response.data);
+      }
+
+      else{
+        setError("Something went wrong. Please try again later");
+      }
+    }
+
+    // // In a real app, you would send this data to your backend API
+    // console.log('Registration Data:', { username, email, password });
+    // alert('Registration attempted (check console)');
+
+    // // Reset form
+    // setUsername('');
+    // setEmail('');
+    // setPassword('');
+    // setConfirmPassword('');
+    // setError('');
   };
 
   return (
@@ -40,6 +74,16 @@ function Register() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder='Username'
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            id="fullname"
+            value={fullname}
+            onChange={(e) => setName(e.target.value)}
+            placeholder='Name'
             required
           />
         </div>
