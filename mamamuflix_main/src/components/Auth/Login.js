@@ -23,7 +23,10 @@ function Login() {
       });
 
       if(response.data === "Success")
+      {
+        localStorage.setItem('isLoggedIn', 'true');
         navigate('/home');
+      }
 
       else {
       setError("Invalid username/email or password.");
