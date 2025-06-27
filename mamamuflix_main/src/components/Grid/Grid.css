@@ -48,3 +48,14 @@
   border-width: 2px;
   border-color: #022;
 }
+
+.close-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
