@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg';
+import axios from 'axios';
 import './SearchBar.css'
 
 function SearchBar() {
@@ -7,11 +8,31 @@ function SearchBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState('');
     const searchRef = useRef(null);
+    const [error, setError] = useState('');
+    const [result, setResult] = useState(null);
     
-    const handleKeyPress = (e) => {
+    const handleKeyPress = async (e) => {
         if (e.key === 'Enter') {
-            console.log('Search for:', query);
-      // Trigger search here
+            // console.log('Search for:', e.target.value);
+            // console.dir(e);
+
+            try {
+              const response = await axios.get(`http://localhost:8080/api/getItem?title=${query}`);
+              if(response.status === 200 && response.data)
+              {
+                setResult(response.data);
+              }
+
+              else {
+                setError('No items found');
+              }
+
+              setError('');
+            }
+
+            catch (error) {
+              setError('An error occured. Please try again');
+            }
     }
   };
 

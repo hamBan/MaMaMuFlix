@@ -1,6 +1,7 @@
 package com.mamamusflix.media_backend.controller;
 
 import com.mamamusflix.media_backend.model.Item;
+import com.mamamusflix.media_backend.model.ItemDTO;
 import com.mamamusflix.media_backend.model.UpdateItemRequest;
 import com.mamamusflix.media_backend.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ItemController {
@@ -66,6 +68,18 @@ public class ItemController {
 
             else
                 return ResponseEntity.ok(itemList);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/getLoadingItems")
+    public ResponseEntity<?> getLoadingItems()
+    {
+        try {
+            List<ItemDTO> movieItems = (List<ItemDTO>) itemRepository.getLoadingData();
+            return ResponseEntity.ok(movieItems);
         }
         catch (Exception e) {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
