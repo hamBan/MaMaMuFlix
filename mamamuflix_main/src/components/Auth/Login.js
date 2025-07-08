@@ -25,7 +25,7 @@ function Login() {
       if(response.data === "Success")
       {
         localStorage.setItem('isLoggedIn', 'true');
-        navigate('/home');
+        navigate('/');
       }
 
       else {
@@ -69,9 +69,9 @@ function Login() {
           />
         </div>
         <div className="button-container">
-          <Link to='/register' className="butn">Register</Link>
           <button type="submit">Login</button>
         </div>
+        <Link to='/register' className="butn">Register</Link>
       </form>
     </div>
   );

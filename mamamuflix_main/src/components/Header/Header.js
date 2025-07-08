@@ -15,10 +15,10 @@ function SiteHeader() {
           <Link to="/series" className="nav-item">Series</Link>
         </div>
         <div className='container_right'>
-          <SearchBar />
+          <SearchBar className="search-icon1"/>
           <Sidebar />
         </div>
-        </div>
+      </div>
     </header>
   );
 }

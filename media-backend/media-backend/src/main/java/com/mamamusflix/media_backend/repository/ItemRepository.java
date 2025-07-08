@@ -10,7 +10,7 @@ public interface ItemRepository extends JpaRepository<Item, String>{
     List<Item> findByTitleContainingIgnoreCase(String title);
     boolean existsByTitleAndTag(String title, Item.Tag tag);
 
-    @Query("SELECT new com.mamamusflix.media_backend.model.ItemDTO(i.uid, i.title, i.poster, i.tag) FROM Item i")
+    @Query("SELECT new com.mamamusflix.media_backend.model.ItemDTO(i.uid, i.title, i.poster, i.tag) FROM Item i ORDER BY i.dateadded DESC")
     List<?> getLoadingData();
 
 }
