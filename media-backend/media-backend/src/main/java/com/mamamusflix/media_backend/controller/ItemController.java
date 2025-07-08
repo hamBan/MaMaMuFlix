@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -64,7 +62,7 @@ public class ItemController {
             List<Item> itemList = itemRepository.findByTitleContainingIgnoreCase(title);
 
             if (itemList.isEmpty())
-                return ResponseEntity.status(400).body("No items found for title: " + title);
+                return ResponseEntity.ok(Collections.emptyList());
 
             else
                 return ResponseEntity.ok(itemList);

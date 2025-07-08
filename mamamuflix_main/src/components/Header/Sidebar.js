@@ -5,8 +5,6 @@ import { ReactComponent as SettingsIcon } from '../../assets/icons/settings.svg'
 import { ReactComponent as ContactSupportIcon } from '../../assets/icons/contact_support.svg';
 import { ReactComponent as Profile } from '../../assets/icons/profile.svg';
 import { ReactComponent as Logout } from '../../assets/icons/logout.svg';
-
-// import component 👇
 import Drawer from 'react-modern-drawer'
 
 //import styles
