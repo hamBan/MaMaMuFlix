@@ -22,7 +22,10 @@ function Login() {
         password: password
       });
 
-      if(response.data === "Success")
+      console.log('Response status:', response.status);
+      console.log('Response data:', response.data);
+      
+      if(response.status === 200)
       {
         localStorage.setItem('isLoggedIn', 'true');
         navigate('/');
