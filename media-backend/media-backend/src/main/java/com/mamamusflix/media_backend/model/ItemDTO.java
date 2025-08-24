@@ -8,34 +8,16 @@ public class ItemDTO {
     
     private String uid;
     private String title;
-    private Date released;
-    private Integer duration;
     private String poster;
-    private String video;
-    private String tag;
-    private String genre;
+    private Item.Tag tag;
 
     public ItemDTO() {}
 
-    public ItemDTO(String uid, String title, Date released, Integer duration, String poster, String video, String tag, String genre) {
+    public ItemDTO(String uid, String title, String poster, Item.Tag tag) {
         this.uid = uid;
         this.title = title;
-        this.released = released;
-        this.duration = duration;
         this.poster = poster;
-        this.video = video;
         this.tag = tag;
-        this.genre = genre;
-    }
-
-    public ItemDTO(String title, Date released, Integer duration, String poster, String video, String tag, String genre) {
-        this.title = title;
-        this.released = released;
-        this.duration = duration;
-        this.poster = poster;
-        this.video = video;
-        this.tag = tag;
-        this.genre = genre;
     }
 
     public String getUid() {
@@ -46,27 +28,27 @@ public class ItemDTO {
         return title;
     }
 
-    public Date getReleased() {
-        return released;
-    }
+//    public Date getReleased() {
+//        return released;
+//    }
 
-    public Integer getDuration() {
-        return duration;
-    }
+//    public Integer getDuration() {
+//        return duration;
+//    }
 
     public String getPoster() {
         return poster;
     }
 
-    public String getVideo() {
-        return video;
-    }
+//    public String getVideo() {
+//        return video;
+//    }
 
-    public String getTag() {
+    public Item.Tag getTag() {
         return tag;
     }
 
-    public String getGenre() {
-        return genre;
-    }
+//    public String getGenre() {
+//        return genre;
+//    }
 }

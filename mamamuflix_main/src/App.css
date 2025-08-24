@@ -17,3 +17,9 @@ body {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+.theater-wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
