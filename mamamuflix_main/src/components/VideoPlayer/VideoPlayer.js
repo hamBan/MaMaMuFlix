@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './VideoPlayer.css';
+import ProgressBar from './ProgressBar';
 
 const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
   const playerRef = useRef(null);
@@ -7,6 +8,7 @@ const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
   const progressRef = useRef(null);
 
   const [player, setPlayer] = useState(null);
+  // let duration = 0;
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -21,7 +23,7 @@ const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
     } else {
       const interval = setInterval(() => {
         if (window.YT && window.YT.Player) {
-          clearInterval(interval);
+          // clearInterval(interval);
           initPlayer();
         }
       }, 100);
@@ -64,19 +66,25 @@ const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
           let dur = yt.getDuration();
           if (dur && dur > 0) {
             setDuration(dur);
-          } else {
+            // duration = dur;
+          }
+          
+          else {
             const durInterval = setInterval(() => {
               dur = yt.getDuration();
               if (dur && dur > 0) {
                 setDuration(dur);
-                clearInterval(durInterval);
+                // duration = dur;
+                // clearInterval(durInterval);
               }
-            }, 500);
+            }, 100);
           }
         },
         onStateChange: (e) => {
+          // console.log("YT State:", e.data);
           if (e.data === window.YT.PlayerState.PLAYING) {
             setIsPlaying(true);
+            // console.log(e.data + " " + window.YT.PlayerState.PLAYING);
             requestAnimationFrame(updateProgress);
           } else if (e.data === window.YT.PlayerState.PAUSED) {
             setIsPlaying(false);
@@ -138,12 +146,14 @@ const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
 
 
   const updateProgress = () => {
+    console.log("Duration:" + duration);
     if (player && player.getCurrentTime) {
       const time = player.getCurrentTime();
       setCurrentTime(time);
 
       if (progressRef.current && duration > 0) {
         progressRef.current.value = (time / duration) * 100;
+        console.log("progress ref:" + progressRef);
       }
 
       if (player.getPlayerState() === window.YT.PlayerState.PLAYING) {
@@ -164,12 +174,6 @@ const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
       const current = player.getCurrentTime();
       player.seekTo(Math.min(current + 5, duration), true);
     }
-  };
-
-  const formatTime = (sec) => {
-    const min = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60);
-    return `${min}:${s < 10 ? '0' : ''}${s}`;
   };
 
   const handleMouseMove = () => {
@@ -219,7 +223,7 @@ const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
               <img src="/assets/forward_5.svg" alt="Forward 5s" className="control-icon"/>
             </button>
 
-            <input
+            {/* <input
               ref={progressRef}
               type="range"
               min="0"
@@ -227,10 +231,9 @@ const VideoPlayer = ({ title, runtime, videoId, thumbnail, genre }) => {
               defaultValue="0"
               onChange={handleSeek}
               className="ytp-progress"
-            />
-            <span className="ytp-time">
-              {formatTime(currentTime)} / {duration > 0 ? formatTime(duration) : '...'}
-            </span>
+            /> */}
+
+            <ProgressBar player={player}/>
 
             <button onClick={toggleFullscreen}>
               <img src={isFullscreen ? "/assets/fullscreen_exit.svg" : "/assets/fullscreen.svg"} alt="Fullscreen Toggle" className="fullscreen-icon" /> {/* icon changes based on state */}</button>
