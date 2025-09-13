@@ -48,7 +48,8 @@ public class SecurityConfig {
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight
-                        .requestMatchers("/api/addUser", "/api/checkUser", "/api/getLoadingItems", "/api/getItem").permitAll()
+                        .requestMatchers("/api/addUser", "/api/checkUser", "/api/getLoadingItems", "/api/getItem", "/api/refresh", "/api/logout")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
                 .httpBasic(Customizer.withDefaults())

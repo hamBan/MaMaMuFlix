@@ -31,13 +31,22 @@ public class JWTService {
         }
     }
 
-    public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
+    // Generate Access Token (short expiry, e.g. 15 min)
+    public String generateAccessToken(String username) {
+        return buildToken(new HashMap<>(), username, 1000 * 60 * 15); // 15 min
+    }
+
+    // Generate Refresh Token (long expiry, e.g. 7 days)
+    public String generateRefreshToken(String username) {
+        return buildToken(new HashMap<>(), username, 1000L * 60 * 60 * 24 * 7); // 7 days
+    }
+
+    private String buildToken(Map<String, Object> claims, String username, long expiration) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getKey())
                 .compact();
     }

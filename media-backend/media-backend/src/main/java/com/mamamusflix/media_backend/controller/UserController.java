@@ -5,6 +5,8 @@ import com.mamamusflix.media_backend.model.UserDTO;
 import com.mamamusflix.media_backend.model.UserEmail;
 import com.mamamusflix.media_backend.model.UserPasswordDTO;
 import com.mamamusflix.media_backend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,14 +40,24 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser")
-    public ResponseEntity<String> deleteUser(@RequestBody UserPasswordDTO userPasswordDTO)
-    {
+    public ResponseEntity<String> deleteUser(@RequestBody UserPasswordDTO userPasswordDTO) {
         return userService.deleteUser(userPasswordDTO);
     }
 
     @PostMapping("/checkUser")
-    public ResponseEntity<String> checkUser(@RequestBody UserPasswordDTO userPasswordDTO) {
-//        System.out.println("LOGIN ATTEMPT: " + userPasswordDTO.getUsername());
-        return userService.checkUser(userPasswordDTO);
+    public ResponseEntity<String> checkUser(@RequestBody UserPasswordDTO userPasswordDTO, HttpServletResponse response) {
+        return userService.checkUser(userPasswordDTO, response);
+    }
+
+     // REFRESH: uses refresh token cookie, returns new access token in body
+    @PostMapping("/refresh")
+    public ResponseEntity<String> refresh(HttpServletRequest request, HttpServletResponse response) {
+        return userService.refreshAccessToken(request, response);
+    }
+
+     // LOGOUT: clears refresh token cookie
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        return userService.logout(response);
     }
 }

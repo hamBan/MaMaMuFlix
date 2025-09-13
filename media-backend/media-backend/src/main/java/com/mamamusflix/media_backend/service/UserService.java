@@ -5,15 +5,23 @@ import com.mamamusflix.media_backend.model.UserDTO;
 import com.mamamusflix.media_backend.model.UserEmail;
 import com.mamamusflix.media_backend.model.UserPasswordDTO;
 import com.mamamusflix.media_backend.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
+
 
 @Service
 public class UserService {
@@ -22,7 +30,10 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    AuthenticationManager authManager;
+    private AuthenticationManager authManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private JWTService jwtService;
@@ -123,22 +134,112 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> checkUser(UserPasswordDTO dto) {
+    public ResponseEntity<String> checkUser(UserPasswordDTO dto, HttpServletResponse response) {
         try {
-            Authentication auth = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword())
-            );
+            Authentication auth = authenticate(dto.getUsername(), dto.getPassword());
 
-            if (auth.isAuthenticated()) {
-                // Generate JWT token
-                 String token = jwtService.generateToken(dto.getUsername());
-                 return ResponseEntity.ok(token);
-            } else {
+            if (!auth.isAuthenticated()) {
                 return ResponseEntity.status(401).body("Invalid credentials");
             }
-        }
-        catch (Exception e) {
+
+            // Access: short-lived
+            String accessToken  = jwtService.generateAccessToken(dto.getUsername());
+            // Refresh: long-lived (stateless)
+            String refreshToken = jwtService.generateRefreshToken(dto.getUsername());
+
+            // HttpOnly + Secure cookie (sent only to /api/refresh)
+            ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+                    .httpOnly(true)
+                    .secure(true)
+                    .path("/api/refresh")
+                    .maxAge(7 * 24 * 60 * 60)  // 7 days
+                    .sameSite("Strict")
+                    .build();
+
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+            return ResponseEntity.ok(accessToken);
+
+        } catch (Exception e) {
             return ResponseEntity.status(401).body("Login failed: " + e.getMessage());
         }
+    }
+
+    /**
+     * REFRESH:
+     *  - Reads refresh token from HttpOnly cookie
+     *  - Validates it and issues new access token
+     *  - Rotates refresh token (sets a new cookie)
+     */
+    public ResponseEntity<String> refreshAccessToken(HttpServletRequest request,
+                                                     HttpServletResponse response) {
+        String refreshToken = readCookie(request, "refreshToken");
+        if (refreshToken == null) {
+            return ResponseEntity.status(401).body("Missing refresh token");
+        }
+
+        try {
+            String username = jwtService.extractUserName(refreshToken);
+
+            // For stateless refresh, validate JWT (signature + expiry)
+            var userDetails = userDetailsService.loadUserByUsername(username);
+            if (!jwtService.validateToken(refreshToken, userDetails)) {
+                return ResponseEntity.status(401).body("Invalid refresh token");
+            }
+
+            // Issue new access token
+            String newAccessToken = jwtService.generateAccessToken(username);
+
+            // Rotate refresh token for safety (optional but recommended)
+            String newRefreshToken = jwtService.generateRefreshToken(username);
+            ResponseCookie cookie = ResponseCookie.from("refreshToken", newRefreshToken)
+                    .httpOnly(true)
+                    .secure(true)
+                    .path("/api/refresh")
+                    .maxAge(7 * 24 * 60 * 60)
+                    .sameSite("Strict")
+                    .build();
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+            return ResponseEntity.ok(newAccessToken);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Refresh failed: " + e.getMessage());
+        }
+    }
+
+    /**
+     * LOGOUT:
+     *  - Clears the refresh token cookie
+     */
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        ResponseCookie clear = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/api/refresh")
+                .maxAge(0)
+                .sameSite("Strict")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, clear.toString());
+        return ResponseEntity.ok("Logged out");
+    }
+
+    // ---------------- helpers ----------------
+
+    private Authentication authenticate(String username, String rawPassword) {
+        return authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, rawPassword)
+        );
+    }
+
+    private String readCookie(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
+        return Arrays.stream(cookies)
+                .filter(c -> name.equals(c.getName()))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
     }
 }

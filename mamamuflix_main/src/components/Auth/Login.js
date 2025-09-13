@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import './Login.css';
 
 function Login() {
-  const [identifier, setIdentifier] = useState(''); // Can be username or email
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -13,36 +14,32 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // In a real app, you would send this data to your backend API
-    // console.log('Login Data:', { identifier, password });
-    // alert('Login attempted (check console)');
     try {
       const response = await axios.post('http://localhost:8080/api/checkUser', {
         username: identifier,
         password: password
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response data:', response.data);
-      
-      if(response.status === 200)
-      {
-        localStorage.setItem('isLoggedIn', 'true');
-        navigate('/');
+      console.log('Response:', response.data);
+
+      if (response.status === 200 && response.data.accessToken && response.data.refreshToken) {
+        // ✅ Save tokens in cookies
+        Cookies.set("accessToken", response.data.accessToken, { secure: true, sameSite: "Strict" });
+        Cookies.set("refreshToken", response.data.refreshToken, { secure: true, sameSite: "Strict" });
+
+        // ✅ Save login status
+        localStorage.setItem("isLoggedIn", "true");
+
+        // ✅ Navigate to home page
+        navigate("/");
+      } else {
+        setError("Invalid username/email or password.");
       }
 
-      else {
-      setError("Invalid username/email or password.");
-    }
-
-    // Reset form
-    setIdentifier('');
-    setPassword('');
-    setError('');
-    }
-
-    catch (error){
-      setError("Login failed. Please try again");
+      setIdentifier('');
+      setPassword('');
+    } catch (err) {
+      setError("Login failed. Please try again.");
     }
   };
 
@@ -74,7 +71,7 @@ function Login() {
         <div className="button-container">
           <button type="submit">Login</button>
         </div>
-        <Link to='/register' className="butn">Register</Link>
+        <Link to="/register" className="butn">Register</Link>
       </form>
     </div>
   );
